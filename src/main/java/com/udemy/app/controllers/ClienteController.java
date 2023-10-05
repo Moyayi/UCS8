@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.udemy.app.models.dao.IClienteDao;
 import com.udemy.app.models.entity.Cliente;
+import com.udemy.app.models.service.ICLienteService;
 
 import jakarta.validation.Valid;
 
@@ -20,12 +20,12 @@ import jakarta.validation.Valid;
 public class ClienteController {
 
 	@Autowired
-	private IClienteDao clienteDao;
+	private ICLienteService clienteService;
 	
 	@GetMapping(path = {"/listar", "/"})
 	public String listar(Model model) {
 		model.addAttribute("titulo", "Listado de clientes");
-		model.addAttribute("clientes", clienteDao.findAll());
+		model.addAttribute("clientes", clienteService.findAll());
 		return "listar";
 	}
 	
@@ -49,16 +49,16 @@ public class ClienteController {
 		
 		if(cliente.getCreateAt().getTime() > new Date().getTime()) cliente.setCreateAt(new Date());
 		
-		clienteDao.save(cliente);
+		clienteService.save(cliente);
 		return "redirect:listar";
 	}
 	
 	@GetMapping("/editar/{id}")
 	public String editar(@PathVariable(value="id") Long id, Map<String, Object> model) {
 		
-		if(!clienteDao.findIfExist(id)) return "redirect:/listar";
+		if(clienteService.findOne(id) == null) return "redirect:/listar";
 		
-		Cliente cliente = clienteDao.findOne(id);
+		Cliente cliente = clienteService.findOne(id);
 		model.put("cliente", cliente);
 		model.put("titulo", "Editando cliente número " + String.join(" ", cliente.getNombre(), cliente.getApellidos()));
 		
@@ -74,14 +74,14 @@ public class ClienteController {
 		}
 		
 		if(cliente.getCreateAt().getTime() > new Date().getTime()) cliente.setCreateAt(new Date());
-		clienteDao.updateClient(cliente);
+		clienteService.save(cliente);
 		return "redirect:listar";
 	}
 	
 	@PostMapping("/borrarCliente/{id}")
 	public String borrar (@PathVariable(value = "id") Long id) {
-		Cliente cliente = clienteDao.findOne(id);
-		clienteDao.delete(cliente);
+		Cliente cliente = clienteService.findOne(id);
+		clienteService.delete(cliente);
 		return "redirect:/listar";
 	}
 	

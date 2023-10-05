@@ -2,22 +2,12 @@ package com.udemy.app.models.dao;
 
 import java.util.List;
 
+import org.springframework.data.repository.CrudRepository;
+
 import com.udemy.app.models.entity.Cliente;
 
-public interface IClienteDao {
+public interface IClienteDao extends CrudRepository<Cliente, Long>{
 
-	public List<Cliente> findAll();
-	
-	public void save(Cliente cliente);
-	
-	public void updateClient( Cliente cliente);
-	
-	public void delete(Cliente cliente);
-	
-	public Cliente findOne(Long id);
-	
-	public boolean findIfExist(Long id);
-	
 
 
 }
