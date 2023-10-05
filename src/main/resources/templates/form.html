@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8" />
+	<title th:text="${titutlo}">Insert title here</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+		integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous" />
+</head>
+
+<body>
+
+	<main class="container">
+
+		<h1 th:text="${titulo}"></h1>
+
+		<form class="col-md-4" th:action="@{/form}" th:object="${cliente}" method="post">
+			<div class="form-group mb-2">
+				<label for="name">Nombre</label>
+				<input type="text" class="form-control" id="name" aria-describedby="TuNmobre"
+					placeholder="Nombre" th:field="*{nombre}"/>
+				<small class="text-danger" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></small>
+			</div>
+			
+			<div class="form-group mb-2">
+				<label for="appelidos">Apellidos</label>
+				<input type="text" class="form-control" id="apellidos" placeholder="Apellidos" aria-describedby="TusApellidos" th:field="*{apellidos}"/>
+				<small class="text-danger" th:if="${#fields.hasErrors('apellidos')}" th:errors="*{apellidos}"></small>
+			</div>
+			
+			<div class="form-group mb-2">
+				<label for="email">Email</label>
+				<input type="text" class="form-control" id="email" placeholder="Email@email.com" aria-describedby="TuEmail" th:field="*{email}"/>
+				<small class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></small>
+			</div>
+			
+			<div class="form-group mb-2">
+				<label for="fecha">Fecha</label>
+				<input class="form-control" type="date" th:field="*{createAt}"/>
+				<small class="text-danger" th:if="${#fields.hasErrors('createAt')}" th:errors="*{createAt}"></small>
+			</div>
+			
+			<button type="submit" class="btn btn-primary">Crear cliente</button>
+		</form>
+		
+	</main>
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
+		integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
+		crossorigin="anonymous"></script>
+</body>
+
+</html>
