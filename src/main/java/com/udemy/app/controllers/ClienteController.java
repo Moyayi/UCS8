@@ -1,5 +1,6 @@
 package com.udemy.app.controllers;
 
+import java.util.Date;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,11 @@ public class ClienteController {
 			model.addAttribute("titulo", "Formulario de Cliente");
 			return "form";
 		}
+		
+		
+		
+		if(cliente.getCreateAt().getTime() > new Date().getTime()) cliente.setCreateAt(new Date());
+		
 		clienteDao.save(cliente);
 		return "redirect:listar";
 	}
@@ -66,20 +72,10 @@ public class ClienteController {
 			model.addAttribute("titulo", "Editando cliente número "+ String.join(" ", cliente.getNombre(), cliente.getApellidos()));
 			return "";
 		}
+		
+		if(cliente.getCreateAt().getTime() > new Date().getTime()) cliente.setCreateAt(new Date());
 		clienteDao.updateClient(cliente);
 		return "redirect:listar";
-	}
-
-	@GetMapping("/borrar/{id}")
-	public String eliminarCliente(@PathVariable( value = "id" ) Long id, Map<String, Object> model ) {
-		
-		if(!clienteDao.findIfExist(id)) return "redirect:/listar";
-		
-		Cliente cliente = clienteDao.findOne(id);
-		model.put("titulo", "Borrar Cliente");
-		model.put("cliente", cliente);
-		
-		return "borrar";
 	}
 	
 	@PostMapping("/borrarCliente/{id}")
