@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.validation.annotation.Validated;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -87,4 +86,8 @@ public class Cliente implements Serializable {
 		return serialVersionUID;
 	}
 
+	
+	public String fullName() {
+		return nombre + " "+ apellidos;
+	}
 }
